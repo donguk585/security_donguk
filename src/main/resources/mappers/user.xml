@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.study.security_donguk.domain.User.UserRepository">
+	
+	<insert id="save" parameterType="com.study.security_donguk.domain.User.User">
+	INSERT INTO
+		user_mst2
+	VALUES
+		(0,
+		#{user_name},
+		#{user_email},
+		#{user_id},
+		#{oauth2_id},
+		#{user_password},
+		#{user_roles},
+		#{user_provider},
+		NOW(),
+		NOW()
+	);
+	</insert>
+	
+	<select id="findUserByUsername" parameterType="String" resultType="com.study.security_donguk.domain.User.User">
+	SELECT
+		sm.user_code,
+		sm.user_name,
+		sm.user_email,
+		sm.user_id,
+		sm.user_password,
+		sm.user_roles,
+		sm.user_provider,
+		dm.user_profile_img,
+		dm.user_address,
+		dm.user_phone,
+		dm.user_gender
+	FROM
+		user_mst2 sm
+		LEFT OUTER JOIN user_dtl dm ON (sm.user_code = dm.user_code)
+	WHERE
+		sm.user_id = #{username}
+	</select>
+
+	<select id="findOAuth2UserByUsername" parameterType="String" resultType="com.study.security_donguk.domain.User.User">
+	SELECT
+		sm.user_code,
+		sm.user_name,
+		sm.user_email,
+		sm.user_id,
+		sm.oauth2_id,
+		sm.user_password,
+		sm.user_roles,
+		sm.user_provider,
+		dm.user_profile_img,
+		dm.user_address,
+		dm.user_phone,
+		dm.user_gender
+	FROM
+		user_mst2 sm
+		LEFT OUTER JOIN user_dtl dm ON (sm.user_code = dm.user_code)
+	WHERE
+		sm.oauth2_id = #{oauth2_id}
+	</select>
+</mapper>
