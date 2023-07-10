@@ -15,6 +15,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Data
 public class Notice {
+	//notice
 	private int notice_code;
 	private String notice_title;
 	private int user_code;
